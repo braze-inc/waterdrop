@@ -18,6 +18,8 @@ module WaterDrop
           message: message,
           buffer: @messages
         ) { @messages << message }
+      rescue FrozenError
+        retry
       end
 
       # Adds given messages into the internal producer buffer without flushing them to Kafka
@@ -38,6 +40,8 @@ module WaterDrop
           messages.each { |message| @messages << message }
           messages
         end
+      rescue FrozenError
+        retry
       end
 
       # Flushes the internal buffer to Kafka in an async way
@@ -78,6 +82,8 @@ module WaterDrop
           data_for_dispatch = @messages
           @messages = []
         end
+
+        data_for_dispatch.freeze
 
         # Do nothing if nothing to flush
         return data_for_dispatch if data_for_dispatch.empty?
