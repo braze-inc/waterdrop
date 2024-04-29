@@ -131,7 +131,7 @@ module WaterDrop
     def purge
       @monitor.instrument('buffer.purged', producer_id: id) do
         @buffer_mutex.synchronize do
-          @messages = []
+          @monitor.instrument('buffer.purging', producer_id: id, messages: @messages) { @messages.freeze }
         end
 
         # We should not purge if there is no client initialized
