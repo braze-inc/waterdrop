@@ -3,5 +3,5 @@
 # WaterDrop library
 module WaterDrop
   # Current WaterDrop version
-  VERSION = '2.8.0.braze2'
+  VERSION = '2.8.0.braze3'
 end
