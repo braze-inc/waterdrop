@@ -103,10 +103,8 @@ module WaterDrop
         ObjectSpace.define_finalizer(id, proc { close })
 
         @pid = Process.pid
-        new_client = Builder.new.call(self, @config)
-
+        @client = Builder.new.call(self, @config)
         @status.connected!
-        @client = new_client
 
         @monitor.instrument('producer.connected', producer_id: id)
       end
